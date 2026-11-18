@@ -1,0 +1,27 @@
+{
+  "name": "beyondtheframe",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RafaGomez/beyondtheframe.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/RafaGomez/beyondtheframe/issues"
+  },
+  "homepage": "https://github.com/RafaGomez/beyondtheframe#readme",
+  "dependencies": {
+    "three": "^0.187.0",
+    "vite": "^8.3.8"
+  }
+}
