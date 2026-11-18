@@ -1,5 +1,5 @@
 const $=s=>document.querySelector(s);
-const works=[{title:'La habitación en Arlés',artist:'Vincent van Gogh',year:'1888',image:'/assets/bedroom.png',load:()=>import('./scenes/bedroom.js')},{},{},{}];
+const works=[{title:'La habitación en Arlés',artist:'Vincent van Gogh',year:'1888',image:'./assets/bedroom.png',load:()=>import('./scenes/bedroom.js')},{},{},{}];
 let index=0,drag=0,skip=false,inside=false;
 const num=n=>String(n).padStart(2,'0');
 const frames=works.map((w,i)=>{
