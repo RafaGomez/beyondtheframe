@@ -1,17 +1,60 @@
 import * as T from 'three';
-import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
-export function open(onExit){
- const renderer=new T.WebGLRenderer({antialias:true}),host=document.createElement('section');host.className='scene';host.style='position:fixed;inset:0;background:#889ab2;z-index:20';host.innerHTML='<button style="position:absolute;top:18px;left:18px">← Volver a la galería</button><button style="position:absolute;top:18px;right:18px">Cambiar la luz</button><p style="position:absolute;bottom:16px;left:16px;background:#f7f7efed;padding:10px;border-radius:4px">Arrastra para mirar · Pellizca o usa la rueda para acercarte</p>';document.body.append(host);host.append(renderer.domElement);renderer.setPixelRatio(Math.min(devicePixelRatio,2));
- const world=new T.Scene(),camera=new T.PerspectiveCamera(54,1,.03,70),control=new OrbitControls(camera,renderer.domElement);camera.position.set(-.8,2.65,5.8);control.target.set(.05,1.38,-.6);control.maxPolarAngle=1.48;control.minPolarAngle=.65;control.minAzimuthAngle=-.59;control.maxAzimuthAngle=.59;control.enablePan=false;control.minDistance=2;control.maxDistance=7;control.update();
- const mats=new Map(),ink=new T.LineBasicMaterial({color:0x433927,transparent:true,opacity:.78});
- function paint(color){if(mats.has(color))return mats.get(color);const c=document.createElement('canvas');c.width=c.height=192;const g=c.getContext('2d');g.fillStyle=color;g.fillRect(0,0,192,192);for(let i=0;i<2600;i++){g.strokeStyle=Math.random()>.5?'#ffeecb26':'#28202921';let x=Math.random()*192,y=Math.random()*192;g.beginPath();g.moveTo(x,y);g.quadraticCurveTo(x+2,y+6,x+Math.random()*5-2,y+4+Math.random()*17);g.stroke()}const tex=new T.CanvasTexture(c);tex.colorSpace=T.SRGBColorSpace;const m=new T.MeshLambertMaterial({map:tex});mats.set(color,m);return m}
- function box(x,y,z,w,h,d,col,tilt=0){const geo=new T.BoxGeometry(w,h,d),m=new T.Mesh(geo,paint(col));m.position.set(x,y,z);m.rotation.z=tilt;m.add(new T.LineSegments(new T.EdgesGeometry(geo),ink));world.add(m);return m}
- const blue='#98b1ce',wood='#c38440',yellow='#dbc85c';box(0,2,-3.1,8,4.5,.15,blue);box(-4,2,0,.15,4.5,6.4,'#9da4c3');box(4,2,0,.15,4.5,6.4,blue);for(let i=0;i<18;i++)box(-3.8+i*.45,-.09,.5,.445,.16,8,['#bf8f80','#bf9488','#d49e8b'][i%3]);
- box(-1.1,2.7,-2.96,1.9,2.1,.12,'#445444');for(let x of [-1.56,-.65])for(let y of [2.23,3.18])box(x,y,-2.86,.77,.83,.08,'#abad62');
- box(2, .48,-.25,2.05,.35,4.1,wood);box(2,.79,-.25,1.95,.35,4,'#e6ce64');box(2,1,.25,1.98,.2,2.9,'#ba4839');box(2,1.07,-1.74,1.55,.3,.75,'#ddd482');for(let z of [-2.3,1.82]){box(2,.84,z,2,1.45,.14,wood);for(let x of [.97,3.03])box(x,.9,z,.17,1.8,.2,wood)}
- function furniture(x,z,w,h,d,chair){box(x,h,z,w,.14,d,chair?'#c4b963':'#b76f44');for(let a of [-1,1])for(let b of [-1,1])box(x+a*w*.41,h/2,z+b*d*.4,.085,h,.085,wood);if(chair){for(let a of [-1,1])box(x+a*w*.41,h+.35,z-d*.4,.09,.78,.09,wood);for(let a of [.22,.58])box(x,h+a,z-d*.4,w,.12,.08,wood)}}
- furniture(-2.65,-1.85,1.65,1.04,.94,false);furniture(-.4,-1.95,.67,.52,.64,true);furniture(-2.9,1.35,.78,.56,.7,true);
- function pot(x,y,z,r,h,col){const m=new T.Mesh(new T.CylinderGeometry(r*.75,r, h,12),paint(col));m.position.set(x,y,z);world.add(m)}pot(-2.85,1.32,-1.85,.16,.42,'#95bad0');pot(-2.35,1.18,-1.85,.22,.13,'#6683a4');
- for(let [x,y,w,h,col] of [[.65,2.9,.93,.67,'#899562'],[2.18,3.15,.52,.76,'#ac934e'],[3,3.22,.55,.72,'#627451']]){box(x,y,-2.94,w,h,.1,wood,.035);box(x,y,-2.86,w*.83,h*.8,.05,col,.035)}
- const light=new T.HemisphereLight(0xfff2cc,0xbda0a0,1.9),sun=new T.DirectionalLight(0xffeed3,2);sun.position.set(-3,6,4);world.add(light,sun);host.children[1].onclick=()=>{sun.intensity=sun.intensity===2?.35:2};function resize(){camera.aspect=host.clientWidth/host.clientHeight;camera.updateProjectionMatrix();renderer.setSize(host.clientWidth,host.clientHeight)}resize();window.addEventListener('resize',resize);renderer.setAnimationLoop(()=>renderer.render(world,camera));function close(){renderer.setAnimationLoop(null);window.removeEventListener('resize',resize);window.removeEventListener('keydown',key);control.dispose();world.traverse(o=>o.geometry?.dispose());mats.forEach(m=>{m.map.dispose();m.dispose()});ink.dispose();renderer.dispose();host.remove();onExit()}function key(e){if(e.key==='Escape')close()}window.addEventListener('keydown',key);host.firstChild.onclick=close;host.firstChild.focus()
+import { furnish } from './arles/model.js';
+import './arles/room.css';
+
+export async function open(onExit) {
+  const renderer = new T.WebGLRenderer({antialias:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,1.75));
+  renderer.shadowMap.enabled=true;
+  renderer.shadowMap.type=T.PCFSoftShadowMap;
+  const world=new T.Scene(), camera=new T.PerspectiveCamera(72,1,.045,28);
+  let model;
+  try { model=await furnish(world); } catch(error){ renderer.dispose(); throw error; }
+  const host=document.createElement('section');
+  host.className='scene arles';
+  host.setAttribute('aria-label','La habitación en Arlés');
+  host.innerHTML=`<header class="arles-bar"><button data-back>← Galería</button><span>La habitación en Arlés</span><button data-light aria-pressed="false">Luz de tarde</button></header><div class="arles-hud"><div class="walk-pad" aria-label="Caminar"><button data-key="KeyW" aria-label="Avanzar">↑</button><button data-key="KeyA" aria-label="Paso a la izquierda">←</button><button data-key="KeyS" aria-label="Retroceder">↓</button><button data-key="KeyD" aria-label="Paso a la derecha">→</button></div><span class="walk-hint">WASD o flechas para caminar · Arrastra para mirar</span></div>`;
+  host.prepend(renderer.domElement);
+  const parent=document.fullscreenElement||document.body;
+  parent.append(host);
+  const events=new AbortController(),listen=(el,event,fn)=>el.addEventListener(event,fn,{signal:events.signal});
+  const canvas=renderer.domElement,keys=new Set();
+  const sky=new T.HemisphereLight(0xfff5de,0xb2a3ad,1.68);
+  const sun=new T.DirectionalLight(0xffe6af,1.45);
+  sun.position.set(-2.8,3.65,-2.85);sun.target.position.set(.9,0,.9);
+  sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);Object.assign(sun.shadow.camera,{left:-5,right:5,top:5,bottom:-5,near:.1,far:14});sun.shadow.bias=-.00065;sun.shadow.normalBias=.018;
+  // Illuminate the interior without projecting the outer shell onto the furniture.
+  world.children.filter(o=>o.isGroup).slice(0,4).forEach(wall=>wall.children[0].castShadow=false);
+  world.add(sky,sun,sun.target);
+  camera.position.set(-.46,1.70,3.58);camera.rotation.order='YXZ';camera.rotation.set(-.13,-.065,0,'YXZ');
+  const pressed=host.querySelector('[data-light]');
+  listen(pressed,'click',()=>{const evening=pressed.getAttribute('aria-pressed')==='false';pressed.setAttribute('aria-pressed',String(evening));pressed.textContent=evening?'Luz de mañana':'Luz de tarde';sky.intensity=evening?1.05:1.68;sun.color.set(evening?0xffad69:0xffe6af);sun.position.x=evening?-3.35:-2.8;sun.position.y=evening?2.45:3.65});
+  let drag=null;
+  listen(canvas,'pointerdown',e=>{if(drag)return;drag={id:e.pointerId,x:e.clientX,y:e.clientY};canvas.setPointerCapture(e.pointerId)});
+  listen(canvas,'pointermove',e=>{if(!drag||drag.id!==e.pointerId)return;
+    camera.rotation.y-=(e.clientX-drag.x)*.004;camera.rotation.x=T.MathUtils.clamp(camera.rotation.x-(e.clientY-drag.y)*.004,-1.38,1.38);drag.x=e.clientX;drag.y=e.clientY});
+  listen(canvas,'lostpointercapture',()=>drag=null);
+  const codes=new Set(['KeyW','KeyA','KeyS','KeyD','ArrowLeft','ArrowRight','ArrowUp','ArrowDown']);
+  listen(window,'keydown',e=>{if(e.key==='Escape'){close();return}if(codes.has(e.code)){e.preventDefault();keys.add(e.code)}});
+  listen(window,'keyup',e=>keys.delete(e.code));
+  listen(window,'blur',()=>keys.clear());
+  for(const button of host.querySelectorAll('[data-key]')){
+    listen(button,'pointerdown',e=>{e.preventDefault();button.setPointerCapture(e.pointerId);keys.add(button.dataset.key)});
+    listen(button,'lostpointercapture',()=>keys.delete(button.dataset.key));
+  }
+  function allowed(x,z){const r=.18;return Math.abs(x)<3.5-r && z> -3.6+r && z<3.9-r && !model.obstacles.some(([l,h,b,f])=>x>l-r&&x<h+r&&z>b-r&&z<f+r)}
+  const active=(a,b)=>Number(keys.has(a)||keys.has(b));
+  let previous=performance.now();
+  renderer.setAnimationLoop(now=>{
+    const dt=Math.min(.05,Math.max(0,(now-previous)/1000));previous=now;
+    const strafe=active('KeyD','ArrowRight')-active('KeyA','ArrowLeft'),forward=active('KeyW','ArrowUp')-active('KeyS','ArrowDown');
+    const yaw=camera.rotation.y, step=1.85*dt/Math.max(1,Math.hypot(strafe,forward));
+    const pos=camera.position,x=pos.x+(Math.cos(yaw)*strafe-Math.sin(yaw)*forward)*step,z=pos.z-(Math.sin(yaw)*strafe+Math.cos(yaw)*forward)*step;
+    if(allowed(x,pos.z))pos.x=x;if(allowed(pos.x,z))pos.z=z;
+    renderer.render(world,camera);
+  });
+  function resize(){renderer.setSize(host.clientWidth,host.clientHeight);camera.aspect=host.clientWidth/host.clientHeight;camera.updateProjectionMatrix()}
+  resize();listen(window,'resize',resize);
+  const back=host.querySelector('[data-back]');listen(back,'click',close);back.focus();
+  function close(){events.abort();renderer.setAnimationLoop(null);model.dispose();sun.shadow.dispose();renderer.dispose();host.remove();onExit();document.querySelector('#enter')?.focus()}
 }
