@@ -24,13 +24,13 @@ export async function open(onExit) {
 
   const host = document.createElement('section');
   host.className = 'scene starry-brush';
-  host.setAttribute('aria-label', 'La noche estrellada (Brochazos)');
+  host.setAttribute('aria-label', 'La noche estrellada');
   host.innerHTML = `
     <header class="starry-bar">
       <button data-back>← Galería</button>
       <div class="starry-title">
         <span>La noche estrellada</span>
-        <small>Vincent van Gogh · 1889 · Estilo brochazos</small>
+        <small>Vincent van Gogh · 1889</small>
       </div>
       <div class="starry-actions">
         <button data-wind aria-pressed="true" title="Animación de corrientes celestes">Pinceladas vivas</button>

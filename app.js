@@ -19,12 +19,7 @@ const works = [
   {
     title: 'La noche estrellada', artist: 'Vincent van Gogh', year: '1889',
     model: 'Gemini 3.8 Flash', reasoning: 'High',
-    medium: 'RECONSTRUCCIÓN EN VÓXELES', image: './assets/starry.jpg', load: () => import('./scenes/starry.js')
-  },
-  {
-    title: 'La noche estrellada', artist: 'Vincent van Gogh', year: '1889',
-    model: 'Gemini 3.8 Flash', reasoning: 'High',
-    medium: 'ÓLEO SOBRE LIENZO · BROCHAZOS', image: './assets/starry.jpg', load: () => import('./scenes/starry-brush.js')
+    medium: 'ÓLEO SOBRE LIENZO', image: './assets/starry.jpg', load: () => import('./scenes/starry-brush.js')
   }
 ];
 
