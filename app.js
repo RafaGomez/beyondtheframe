@@ -2,11 +2,13 @@ const $ = selector => document.querySelector(selector);
 const works = [
   {
     title: 'La habitación en Arlés', artist: 'Vincent van Gogh', year: '1888',
+    model: 'Astra 6.2', reasoning: 'High',
     medium: 'ÓLEO SOBRE LIENZO', image: './assets/bedroom.png', load: () => import('./scenes/bedroom.js')
   },
   {
     // Reproduction: https://github.com/jcjohnson/fast-neural-style/blob/master/images/styles/the_scream.jpg
     title: 'El grito', artist: 'Edvard Munch', year: '1893', portrait: true,
+    model: 'Astra 6.2', reasoning: 'Xhigh',
     medium: 'TÉMPERA Y ÓLEO SOBRE CARTÓN', image: './assets/scream.webp', load: () => import('./scenes/scream.js')
   },
   {}, {}
@@ -57,6 +59,8 @@ function select(i) {
   $('#meta').textContent='OBRA '+num(index+1)+' / '+(work.medium||'EN PREPARACIÓN');
   $('#title').textContent=work.title||'Próxima obra';
   $('#artist').textContent=work.artist?work.artist+'   ·   '+work.year:'Marco reservado';
+  $('#benchmark').hidden=!work.model;
+  $('#benchmark').textContent=work.model?'Modelo: '+work.model+' · Razonamiento: '+work.reasoning:'';
   $('#enter').disabled=!work.load;
   $('#enter').innerHTML=work.load?'Entrar al cuadro <strong>↗</strong>':'Próximamente';
   $('#count').textContent=num(index+1)+' / '+num(total);
