@@ -11,7 +11,12 @@ const works = [
     model: 'Astra 6.2', reasoning: 'Xhigh',
     medium: 'TÉMPERA Y ÓLEO SOBRE CARTÓN', image: './assets/scream.webp', load: () => import('./scenes/scream.js')
   },
-  {}, {}
+  {
+    title: 'La persistencia de la memoria', artist: 'Salvador Dalí', year: '1931',
+    model: 'Sol', reasoning: 'Xhigh',
+    medium: 'ÓLEO SOBRE LIENZO', image: './assets/memory.png', load: () => import('./scenes/memory.js')
+  },
+  {}
 ];
 
 let index=0, drag=0, skip=false, inside=false;
