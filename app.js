@@ -19,7 +19,12 @@ const works = [
   {
     title: 'La noche estrellada', artist: 'Vincent van Gogh', year: '1889',
     model: 'Gemini 3.8 Flash', reasoning: 'High',
-    medium: 'ÓLEO SOBRE LIENZO', image: './assets/starry.jpg', load: () => import('./scenes/starry.js')
+    medium: 'RECONSTRUCCIÓN EN VÓXELES', image: './assets/starry.jpg', load: () => import('./scenes/starry.js')
+  },
+  {
+    title: 'La noche estrellada', artist: 'Vincent van Gogh', year: '1889',
+    model: 'Gemini 3.8 Flash', reasoning: 'High',
+    medium: 'ÓLEO SOBRE LIENZO · BROCHAZOS', image: './assets/starry.jpg', load: () => import('./scenes/starry-brush.js')
   }
 ];
 
@@ -36,7 +41,7 @@ const frames=works.map((work,i)=>{
     frame.append(image);
   } else {
     const mark=document.createElement('em');
-    mark.textContent=['I','II','III','IV'][i];
+    mark.textContent=['I','II','III','IV','V','VI'][i];
     frame.append(mark);
   }
   const plaque=document.createElement('i');
