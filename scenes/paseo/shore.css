@@ -1,0 +1,28 @@
+.shore{position:fixed;inset:0;z-index:20;background:#0d0d0f;color:#fbf6ea;overflow:hidden}
+.shore canvas{display:block;touch-action:none;cursor:grab}
+.shore canvas:active{cursor:grabbing}
+.shore-bar,.shore-hud{position:absolute;left:0;right:0;display:flex;align-items:center;gap:10px;padding:16px 22px;pointer-events:none}
+.shore-bar{top:0;height:auto;border:0;background:linear-gradient(#10182a8c,transparent)}
+.shore-bar>span{font:italic 21px Georgia,serif;margin-right:auto;text-shadow:0 1px 8px #0008}
+.shore-bar small{display:block;font:10px 'Courier New',monospace;letter-spacing:1.7px;font-style:normal;opacity:.85;margin-top:3px}
+.shore button,.shore .walk-hint{pointer-events:auto;background:#1d2a45d9;color:#fbf6ea;border:1px solid #f4e6c466;border-radius:5px;padding:10px 15px;font:13px Arial,sans-serif;backdrop-filter:blur(4px)}
+.shore button[aria-pressed=false]{background:#1d2a4580;color:#fbf6eab0}
+.shore button:disabled{opacity:.45;cursor:default}
+.shore button:focus-visible{outline:2px solid #f2c46d;outline-offset:2px}
+.shore-hud{bottom:0;align-items:flex-end;justify-content:space-between;transition:opacity .8s}
+.shore[data-mode=intro] .shore-hud{opacity:0}
+.shore .walk-hint{margin-left:auto}
+.shore .walk-pad{display:none;grid-template-columns:repeat(3,42px);gap:4px}
+.shore .walk-pad button{height:42px;padding:0;touch-action:none;user-select:none;-webkit-user-select:none}
+.shore .walk-pad button:first-child{grid-column:2}
+.shore .walk-pad button:nth-child(2){grid-column:1}
+.shore-skip{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);font:11px 'Courier New',monospace;letter-spacing:1.5px;color:#fbf6eacc;text-shadow:0 1px 6px #000;pointer-events:none;transition:opacity .6s}
+.shore:not([data-mode=intro]) .shore-skip{opacity:0}
+@media(pointer:coarse),(max-width:700px){
+  .shore .walk-pad{display:grid}
+  .shore .walk-hint{display:none}
+  .shore-bar{flex-wrap:wrap;padding:10px}
+  .shore-bar>span{font-size:16px;flex-basis:calc(100% - 110px)}
+  .shore-bar button{padding:8px 11px;font-size:12px}
+  .shore-hud{padding:10px}
+}

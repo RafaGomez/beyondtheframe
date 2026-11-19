@@ -20,6 +20,11 @@ const works = [
     title: 'La noche estrellada', artist: 'Vincent van Gogh', year: '1889',
     model: 'Gemini 3.8 Flash', reasoning: 'High',
     medium: 'ÓLEO SOBRE LIENZO', image: './assets/starry.jpg', load: () => import('./scenes/starry-brush.js')
+  },
+  {
+    title: 'Paseo a orillas del mar', artist: 'Joaquín Sorolla', year: '1909', ratio: 980 / 993,
+    model: 'Opus 5.5', reasoning: 'Xhigh',
+    medium: 'ÓLEO SOBRE LIENZO', image: './assets/paseo.webp', load: () => import('./scenes/paseo.js')
   }
 ];
 
@@ -30,6 +35,7 @@ const frames=works.map((work,i)=>{
   frame.className='work';
   frame.classList.toggle('portrait',Boolean(work.portrait));
   frame.classList.toggle('empty',!work.image);
+  if(work.ratio) frame.style.aspectRatio=work.ratio;
   if(work.image) {
     const image=new Image();
     image.src=work.image; image.alt=work.title; image.draggable=false;
