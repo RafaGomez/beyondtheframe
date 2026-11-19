@@ -1,0 +1,20 @@
+.scream { position:fixed; inset:0; z-index:20; background:#322d35; color:#fff4df; }
+.scream canvas { display:block; touch-action:none; cursor:grab; }
+.scream canvas:active { cursor:grabbing; }
+.scream-bar,.scream-hud { position:absolute; left:0; right:0; display:flex; align-items:center; justify-content:space-between; padding:16px 22px; pointer-events:none; }
+.scream-bar { top:0; height:auto; border:0; background:linear-gradient(#2a202488,transparent); }
+.scream-bar span { font:italic 24px Georgia,serif; text-shadow:0 1px 5px #322427; position:absolute; left:50%; transform:translateX(-50%); }
+.scream button,.scream-hud span { background:#342d2be0; border:1px solid #e7d1a877; border-radius:5px; color:#fff4df; padding:10px 15px; font:13px Arial,sans-serif; }
+.scream button { pointer-events:auto; }
+.scream-hud { bottom:0; align-items:flex-end; }
+.scream-hud span { margin-left:auto; }
+.scream .walk-pad { display:none; grid-template-columns:repeat(3,44px); gap:5px; }
+.scream .walk-pad button { height:44px; touch-action:none; user-select:none; }
+.scream .walk-pad button:first-child { grid-column:2; }
+.scream .walk-pad button:nth-child(2) { grid-column:1; }
+@media (pointer:coarse),(max-width:700px) {
+  .scream .walk-pad { display:grid; }
+  .scream-hud span { display:none; }
+  .scream-bar,.scream-hud { padding:10px; }
+  .scream-bar span { font-size:19px; }
+}
