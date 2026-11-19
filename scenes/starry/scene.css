@@ -1,0 +1,147 @@
+.starry {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background: #09101f;
+  color: #f0f6ff;
+  user-select: none;
+}
+.starry canvas {
+  display: block;
+  touch-action: none;
+  cursor: grab;
+}
+.starry canvas:active {
+  cursor: grabbing;
+}
+.starry-bar, .starry-hud {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 24px;
+  pointer-events: none;
+}
+.starry-bar {
+  top: 0;
+  background: linear-gradient(180deg, rgba(8, 15, 30, 0.88), transparent);
+}
+.starry-actions {
+  display: flex;
+  gap: 10px;
+}
+.starry-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+  text-shadow: 0 2px 8px rgba(10, 20, 45, 0.95);
+}
+.starry-title span {
+  font: italic 22px Georgia, serif;
+  color: #fff8e7;
+  letter-spacing: 0.5px;
+}
+.starry-title small {
+  font: 10px 'Courier New', monospace;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #9ac2ef;
+}
+.starry button, .starry-hint {
+  background: rgba(14, 25, 52, 0.78);
+  color: #f2f7ff;
+  border: 1px solid rgba(138, 185, 245, 0.35);
+  border-radius: 6px;
+  padding: 10px 16px;
+  font: 12px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  backdrop-filter: blur(10px);
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+}
+.starry button {
+  pointer-events: auto;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.starry button:hover {
+  background: rgba(25, 45, 90, 0.88);
+  border-color: rgba(255, 221, 85, 0.7);
+  color: #ffffff;
+}
+.starry button:active {
+  transform: scale(0.97);
+}
+.starry button[aria-pressed="true"] {
+  background: rgba(40, 75, 145, 0.9);
+  border-color: #ffdd55;
+  color: #fffae0;
+}
+.starry button:focus-visible {
+  outline: 2px solid #ffdd55;
+  outline-offset: 3px;
+}
+.starry-hud {
+  bottom: 0;
+  align-items: flex-end;
+  background: linear-gradient(0deg, rgba(8, 15, 30, 0.75), transparent);
+}
+.starry-hint {
+  margin-left: auto;
+  color: #c7ddfb;
+  font-size: 11px;
+}
+.starry .walk-pad {
+  display: none;
+  grid-template-columns: repeat(3, 44px);
+  gap: 6px;
+}
+.starry .walk-pad button {
+  height: 44px;
+  padding: 0;
+  touch-action: none;
+  user-select: none;
+  font-size: 18px;
+}
+.starry .walk-pad button:first-child {
+  grid-column: 2;
+}
+.starry .walk-pad button:nth-child(2) {
+  grid-column: 1;
+}
+
+@media (pointer: coarse), (max-width: 760px) {
+  .starry .walk-pad {
+    display: grid;
+  }
+  .starry-hint {
+    display: none;
+  }
+  .starry-bar, .starry-hud {
+    padding: 12px;
+  }
+  .starry-title span {
+    font-size: 17px;
+  }
+  .starry-title small {
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+  .starry button {
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+}
+@media (max-width: 520px) {
+  .starry-bar {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .starry-title {
+    order: 3;
+    width: 100%;
+  }
+}

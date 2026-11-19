@@ -16,7 +16,11 @@ const works = [
     model: 'Sol', reasoning: 'Xhigh',
     medium: 'ÓLEO SOBRE LIENZO', image: './assets/memory.png', load: () => import('./scenes/memory.js')
   },
-  {}
+  {
+    title: 'La noche estrellada', artist: 'Vincent van Gogh', year: '1889',
+    model: 'Gemini 3.8 Flash', reasoning: 'High',
+    medium: 'ÓLEO SOBRE LIENZO', image: './assets/starry.jpg', load: () => import('./scenes/starry.js')
+  }
 ];
 
 let index=0, drag=0, skip=false, inside=false;
