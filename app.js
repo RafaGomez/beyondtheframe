@@ -62,13 +62,15 @@ const frames=works.map((work,i)=>{
 
 function select(i) {
   const total=works.length;
+  const mobile=window.matchMedia('(max-width:600px)').matches;
   index=(i+total)%total;
   const work=works[index];
   frames.forEach((frame,j)=>{
     let delta=(j-index+total)%total;
     if(delta>total/2) delta-=total;
     frame.style.visibility=Math.abs(delta)>1?'hidden':'visible';
-    frame.style.transform='translate(-50%,-50%) translateX('+delta*$('#stage').clientWidth*.414+'px) perspective(850px) rotateY('+delta*-18+'deg) scale('+(delta?.79:1)+')';
+    frame.style.zIndex=delta===0?'2':'1';
+    frame.style.transform='translate(-50%,-50%) translateX('+delta*$('#stage').clientWidth*(mobile?.56:.414)+'px) perspective(850px) rotateY('+(mobile?0:delta*-18)+'deg) scale('+(delta?.79:1)+')';
     $('#dots').children[j].classList.toggle('active',index===j);
   });
   $('#meta').textContent='OBRA '+num(index+1)+' / '+(work.medium||'EN PREPARACIÓN');

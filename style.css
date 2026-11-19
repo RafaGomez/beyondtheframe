@@ -3,3 +3,29 @@
 .work.portrait{box-sizing:content-box;aspect-ratio:1200/1528;height:65%;width:auto;top:44%}.work.portrait img{position:absolute;inset:0;object-fit:contain}
 
 #benchmark{display:inline-block;margin:12px 0 0;padding:7px 10px;border:1px solid #c6cbbf;border-radius:4px;background:#eef0e8;color:#303a2d;font:12px/1.5 'Courier New',monospace}#benchmark[hidden]{display:none}
+
+/* Keep the selected painting above its neighbours and below the gallery UI. */
+.expand,.stagehint{z-index:3}
+@media(max-width:600px){
+  #stage{container-type:size}
+  .work,.work.portrait{box-sizing:border-box;height:auto;width:60%;max-width:68cqh;top:42%}
+  .work.portrait{width:46%;max-width:56cqh}
+  nav>.micro{display:none}
+  nav{gap:8px}
+  #dots button{width:22px}
+  .pages{gap:8px}
+}
+
+/* Follow the visible viewport as mobile browser toolbars expand and collapse. */
+.scene.scene{height:100vh;height:100dvh;bottom:auto}
+body:has(.scene){overflow:hidden}
+@media(pointer:coarse),(max-width:700px){
+  .scene.scene .walk-pad{
+    display:grid;
+    grid-template-columns:repeat(3,44px);
+    gap:6px;
+    margin-bottom:calc(24px + env(safe-area-inset-bottom,0px));
+    margin-left:env(safe-area-inset-left,0px);
+  }
+  .scene.scene .walk-pad button{min-width:44px;min-height:44px;padding:0}
+}
