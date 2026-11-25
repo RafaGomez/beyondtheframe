@@ -25,6 +25,11 @@ const works = [
     title: 'Paseo a orillas del mar', artist: 'Joaquín Sorolla', year: '1909', ratio: 980 / 993,
     model: 'Opus 5.5', reasoning: 'Xhigh',
     medium: 'ÓLEO SOBRE LIENZO', image: './assets/paseo.webp', load: () => import('./scenes/paseo.js')
+  },
+  {
+    title: 'Guernica', artist: 'Pablo Picasso', year: '1937', ratio: 1500 / 680, panoramic: true,
+    model: 'Gemini 4 Neon', reasoning: 'High',
+    medium: 'ÓLEO SOBRE LIENZO', image: './assets/guernica.webp', load: () => import('./scenes/guernica.js')
   }
 ];
 
@@ -34,6 +39,7 @@ const frames=works.map((work,i)=>{
   const frame=document.createElement('button');
   frame.className='work';
   frame.classList.toggle('portrait',Boolean(work.portrait));
+  frame.classList.toggle('panoramic',Boolean(work.panoramic));
   frame.classList.toggle('empty',!work.image);
   if(work.ratio) frame.style.aspectRatio=work.ratio;
   if(work.image) {
